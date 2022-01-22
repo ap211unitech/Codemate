@@ -1,15 +1,13 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/xml/xml";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHtml5 } from '@fortawesome/free-brands-svg-icons'
-import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHtml5 } from '@fortawesome/free-brands-svg-icons';
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 function Editor({ value, handleChange, refresh, handleRefresh }) {
-
-
 
     return <Fragment>
         <div className="editor-nav #212121 grey darken-4 white-text">
@@ -29,7 +27,7 @@ function Editor({ value, handleChange, refresh, handleRefresh }) {
                 lint: true,
                 mode: 'xml',
                 theme: "material",
-                lineNumbers: true
+                lineNumbers: true,
             }}
         />
     </Fragment>;

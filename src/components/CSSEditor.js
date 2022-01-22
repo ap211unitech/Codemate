@@ -9,16 +9,6 @@ import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 
 function Editor({ value, handleChange, refresh, handleRefresh }) {
 
-
-    const [rotate, setRotate] = useState(false);
-
-    const handleRotate = () => {
-        setRotate(!rotate);
-        setTimeout(() => {
-            setRotate(false);
-        }, 500);
-    }
-
     return <Fragment>
         <div className="editor-nav #212121 grey darken-4 white-text">
             <div className="left-editor-nav">

@@ -11,6 +11,26 @@ function Development() {
     const [jsCode, setJSCode] = useState(localStorage.getItem('jsCode'));
     const [output, setOutput] = useState('')
 
+    const [randomQuote, setRandomQuote] = useState('');
+
+    useEffect(() => {
+        const getRandomQuote = async () => {
+            try {
+                const wait = await fetch('https://programming-quotes-api.herokuapp.com/Quotes/random');
+                const res = await wait.json();
+                if (res.en.length > 120) {
+                    getRandomQuote();
+                }
+                else {
+                    setRandomQuote(res.en);
+                }
+            }
+            catch (e) { }
+        }
+        getRandomQuote();
+    }, [])
+
+
     const [htmlRefresh, setHTMLrefresh] = useState(false);
     const [cssRefresh, setCSSrefresh] = useState(false);
     const [jsRefresh, setJSrefresh] = useState(false);
@@ -102,7 +122,7 @@ function Development() {
         </div>
         <div className="bottom-pane">
             <iframe
-                srcDoc={htmlCode ? output : "<p style='text-align: center;margin-top: 50vh;color: white;font-family: SANS-SERIF;'>See Your Output Here</p>"}
+                srcDoc={htmlCode ? output : `<p style='text-align: center;margin-top: 50vh;color: white;font-family: SANS-SERIF;opacity:0.7'>${randomQuote}</p>`}
                 title="Output"
                 sandbox="allow-scripts"
                 style={{
