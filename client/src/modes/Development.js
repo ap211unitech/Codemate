@@ -118,8 +118,6 @@ function Development() {
                 <JSEditor value={jsCode} handleChange={handleJSChange} refresh={jsRefresh} handleRefresh={handleRefresh} />
             </Col>
         </Row>
-        <div>
-        </div>
         <div className="bottom-pane">
             <iframe
                 srcDoc={htmlCode ? output : `<p style='text-align: center;margin-top: 50vh;color: white;font-family: SANS-SERIF;opacity:0.7'>${randomQuote}</p>`}
