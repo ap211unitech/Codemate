@@ -103,19 +103,36 @@ function Development() {
                 s={4}
                 className='editorStyle'
             >
-                <HTMLEditor value={htmlCode} handleChange={handleHTMLChange} refresh={htmlRefresh} handleRefresh={handleRefresh} />
+                <HTMLEditor
+                    value={htmlCode}
+                    handleChange={handleHTMLChange}
+                    refresh={htmlRefresh}
+                    handleRefresh={handleRefresh}
+                    setHTMLCode={setHTMLCode}
+                />
+            </Col>
+            <Col
+                s={4}
+                className='editorStyle'
+                style={{ padding: '0 0.1rem' }}
+            >
+                <CSSEditor value={cssCode}
+                    handleChange={handleCSSChange}
+                    refresh={cssRefresh}
+                    handleRefresh={handleRefresh}
+                    setCSSCode={setCSSCode}
+                />
             </Col>
             <Col
                 s={4}
                 className='editorStyle'
             >
-                <CSSEditor value={cssCode} handleChange={handleCSSChange} refresh={cssRefresh} handleRefresh={handleRefresh} />
-            </Col>
-            <Col
-                s={4}
-                className='editorStyle'
-            >
-                <JSEditor value={jsCode} handleChange={handleJSChange} refresh={jsRefresh} handleRefresh={handleRefresh} />
+                <JSEditor value={jsCode}
+                    handleChange={handleJSChange}
+                    refresh={jsRefresh}
+                    handleRefresh={handleRefresh}
+                    setJSCode={setJSCode}
+                />
             </Col>
         </Row>
         <div className="bottom-pane">

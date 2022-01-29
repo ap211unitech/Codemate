@@ -35,13 +35,23 @@
 
 .left-editor-nav {}
 
-.right-editor-nav {}
+.right-editor-nav {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+}
 
 .editorStyle {
   margin-top: 15px;
   word-wrap: break-word;
   white-space: pre-wrap;
   word-break: normal;
+}
+
+.btn-small {
+  border-radius: 0;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .react-codemirror2 {}

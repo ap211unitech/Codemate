@@ -7,8 +7,8 @@ import Programming from './modes/Programming';
 function App() {
   return (
     <Fragment>
-      {/* <Development /> */}
-      <Programming />
+      <Development />
+      {/* <Programming /> */}
     </Fragment>
   );
 }
