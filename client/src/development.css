@@ -26,6 +26,8 @@
   background: #555;
 }
 
+/************************************* Development Mode *************************************/
+
 .editor-nav {
   display: flex;
   flex-direction: row;
@@ -73,3 +75,4 @@
     transform: rotate(360deg);
   }
 }
+

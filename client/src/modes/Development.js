@@ -1,3 +1,4 @@
+import '../development.css'
 import React, { useEffect, useState } from 'react';
 import HTMLEditor from '../components/HTMLEditor';
 import CSSEditor from '../components/CSSEditor';
@@ -146,7 +147,7 @@ function Development() {
                     outline: "none",
                     border: "none",
                     width: "100%",
-                    height: "340px"
+                    height: "355px"
                 }}
             ></iframe>
         </div>
