@@ -1,10 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import Editor from "@monaco-editor/react";
+import { HashLoader } from "react-spinners";
 
-
-
-function CPPEditor({ code, handleChange }) {
-    const [theme, setTheme] = useState("vs-dark");
+function CPPEditor({ code, handleChange, theme, lang }) {
     const [isEditorReady, setIsEditorReady] = useState(false);
 
 
@@ -17,6 +15,10 @@ function CPPEditor({ code, handleChange }) {
         find: {
             autoFindInSelection: "always"
         },
+        indentSize: 40,
+        tabSize: 6,
+        formatOnType: true,
+        showSnippets: true,
         snippetSuggestions: "inline",
         wordWrap: "on",
         fontSize: 15.5,
@@ -28,19 +30,15 @@ function CPPEditor({ code, handleChange }) {
         setIsEditorReady(true);
     }
 
-    function toggleTheme() {
-        setTheme(theme === "light" ? "vs-dark" : "light");
-    }
-
     return <div>
-
         <div className="cpp-editor">
             <Editor
-                height={"60vh"}
+                height={"80vh"}
                 theme={theme}
-                language={"cpp"}
+                language={lang}
                 options={options}
                 value={code}
+                loading={<HashLoader color='white' />}
                 editorDidMount={handleEditorDidMount}
                 onChange={handleChange}
             />
