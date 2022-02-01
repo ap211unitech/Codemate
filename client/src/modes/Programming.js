@@ -4,11 +4,16 @@ import DownloadLink from "react-download-link";
 import CPPEditor from '../components/CPPEditor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRunning, faFileDownload } from '@fortawesome/free-solid-svg-icons';
-import { defaultCode } from "../utils/default";
+import { defaults } from "../utils/default";
 import axios from "axios";
 
 function Programming() {
 
+    const [cppLocalStorage, setCppLocalStorage] = useState({
+        code: defaults.cppCode,
+        lang: "cpp",
+        isDarkMode: true
+    })
 
     const [code, setCode] = useState();
     const [inputValue, setInputValue] = useState('');
@@ -16,8 +21,26 @@ function Programming() {
     const [errMessage, setErrMessage] = useState('');
     const [isDarkMode, setIsDarkMode] = useState(true);
 
+    useEffect(() => {
+        if (localStorage.getItem('cpp')) {
+            setCppLocalStorage(JSON.parse(localStorage.getItem('cpp')));
+            setCode(JSON.parse(localStorage.getItem('cpp')).code)
+            setIsDarkMode(JSON.parse(localStorage.getItem('cpp')).isDarkMode)
+        }
+        else {
+            setCppLocalStorage({
+                code: defaults.cppCode,
+                lang: "cpp",
+                isDarkMode: true
+            });
+            setCode(cppLocalStorage.code)
+            setIsDarkMode(cppLocalStorage.isDarkMode)
+        }
+    }, [])
+
     const runProgram = async () => {
         try {
+            setErrMessage('');
             setOutputValue('Compiling...');
             const res = await axios.post('/compile', { code, lang: 'cpp', input: inputValue });
             if (res.data.err) {
@@ -33,21 +56,17 @@ function Programming() {
         }
     }
 
-    useEffect(() => {
-        if (localStorage.getItem('cppCode')) {
-            setCode(localStorage.getItem('cppCode'));
-        }
-        else {
-            setCode(defaultCode.cppCode)
-        }
-    }, [])
+
 
     const handleChange = (newCode, e) => {
+        localStorage.setItem("cpp", JSON.stringify({ ...cppLocalStorage, code: newCode }));
         setCode(newCode);
-        localStorage.setItem("cppCode", newCode);
+        setCppLocalStorage({ ...cppLocalStorage, code: newCode });
     }
 
     const toggleMode = () => {
+        localStorage.setItem("cpp", JSON.stringify({ ...cppLocalStorage, isDarkMode: isDarkMode ? false : true }));
+        setCppLocalStorage({ ...cppLocalStorage, isDarkMode: !isDarkMode });
         setIsDarkMode(!isDarkMode);
     }
 
@@ -56,11 +75,36 @@ function Programming() {
             background: isDarkMode ? "rgb(21 55 106 / 90%)" : "rgb(88 125 137)",
             paddingTop: "40px"
         }}>
+
+
+
         <div
             style={{
                 margin: "auto",
                 maxWidth: "70rem",
             }}>
+
+
+            <div>
+
+                <div className="left">
+
+                </div>
+
+                <div className="right">
+                    {/* <div className="dropdown">
+                        <button className="dropbtn">Dropdown</button>
+                        <div className="dropdown-content">
+                            <a href="#">Link 1</a>
+                            <a href="#">Link 2</a>
+                            <a href="#">Link 3</a>
+                        </div>
+                    </div> */}
+                </div>
+
+            </div>
+
+
             <div className="editor">
                 <CPPEditor
                     code={code}
@@ -70,8 +114,8 @@ function Programming() {
                 />
             </div>
 
-            <div className="cpp-nav">
-                <div className="left-nav">
+            <div className="programming-footer">
+                <div className="left-footer">
                     <p onClick={runProgram}>
                         <FontAwesomeIcon icon={faRunning} size='lg' style={{ marginRight: "7px" }} />
                         Run
@@ -93,7 +137,7 @@ function Programming() {
                     />
 
                 </div>
-                <div className="right-nav">
+                <div className="right-footer">
                     <div className="mode">
                         {isDarkMode ?
                             <p onClick={toggleMode}>Enable Light Mode</p> :
@@ -103,7 +147,18 @@ function Programming() {
                 </div>
             </div>
 
-            <div className="err-msg">
+            <div className="err-msg"
+                style={errMessage ? {
+                    marginTop: "5px",
+                    marginBottom: "10px",
+                    border: "2px solid #e74c3c",
+                    backgroundColor: "#e74c3c",
+                    borderRadius: "5px",
+                    padding: "8px",
+                } :
+                    null
+                }
+            >
                 {errMessage}
             </div>
 
@@ -135,7 +190,7 @@ function Programming() {
                 </div>
             </div>
         </div>
-    </div>
+    </div >
 }
 
 export default Programming;
