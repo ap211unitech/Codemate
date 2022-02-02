@@ -4,6 +4,7 @@ import HTMLEditor from '../components/HTMLEditor';
 import CSSEditor from '../components/CSSEditor';
 import JSEditor from '../components/JSEditor';
 import { Row, Col } from "react-materialize";
+import Navbar from "../components/Navbar";
 
 function Development() {
 
@@ -99,6 +100,7 @@ function Development() {
         backgroundColor: 'hsl(225, 6%, 25%)',
         height: '100vh'
     }}>
+        <Navbar color={"#343a40"} />
         <Row>
             <Col
                 s={4}
