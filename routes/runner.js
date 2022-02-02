@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const fs = require('fs')
 const path = require('path')
+const request = require("request");
+
 
 
 const deleteFile = (filename) => {
@@ -15,10 +17,38 @@ const deleteFile = (filename) => {
 
 const execute = require('../utils/compile');
 router.post('/', (req, res) => {
+    // const url = "https://api.jdoodle.com/v1/execute";
+
     console.log(req.body)
     const code = req.body.code
     const input = req.body.input
     const lang = req.body.lang
+
+    // const program = {
+    //     script: req.body.code,
+    //     stdin: req.body.input,
+    //     language: req.body.lang,
+    //     versionIndex: "0",
+    //     clientId: "5ce99d471629ae027355c445ccd8bb8f",
+    //     clientSecret: "fef64ae65a4b1a6b9234e10b18f7ef88119b5874bcf00f409bbdc973d7d0a073",
+    // };
+    // request(
+    //     {
+    //         url: url,
+    //         method: "POST",
+    //         json: program,
+    //     },
+    //     function (error, response, body) {
+    //         res.json(body);
+    //         console.log("error:", error);
+    //         console.log("statusCode:", response && response.statusCode);
+    //         console.log("body:", body);
+    //     }
+    // );
+
+    // return;
+
+
     switch (lang) {
         case "cpp":
             return execute.cPlusPlusExecute(code, input)
