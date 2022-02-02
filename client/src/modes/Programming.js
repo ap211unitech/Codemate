@@ -5,6 +5,7 @@ import CPPEditor from '../components/CPPEditor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRunning, faFileDownload } from '@fortawesome/free-solid-svg-icons';
 import { defaults } from "../utils/default";
+import errorHandling from "../utils/errorHandling";
 import axios from "axios";
 
 function Programming() {
@@ -43,8 +44,9 @@ function Programming() {
             setErrMessage('');
             setOutputValue('Compiling...');
             const res = await axios.post('/compile', { code, lang: 'cpp', input: inputValue });
-            if (res.data.err) {
-                setErrMessage(res.data.error);
+            const outputJson = res.data;
+            if (outputJson.memory == null && outputJson.cpuTime == null) {
+                setErrMessage(errorHandling(outputJson));
                 setOutputValue('');
             }
             else {
@@ -55,8 +57,6 @@ function Programming() {
             console.log(err)
         }
     }
-
-
 
     const handleChange = (newCode, e) => {
         localStorage.setItem("cpp", JSON.stringify({ ...cppLocalStorage, code: newCode }));
