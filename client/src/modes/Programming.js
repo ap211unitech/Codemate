@@ -3,11 +3,12 @@ import "../programming.css";
 import DownloadLink from "react-download-link";
 import CPPEditor from '../components/CPPEditor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRunning, faFileDownload } from '@fortawesome/free-solid-svg-icons';
+import { faRunning, faFileDownload, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { defaults } from "../utils/default";
 import errorHandling from "../utils/errorHandling";
 import axios from "axios";
 import Navbar from "../components/Navbar"
+
 
 function Programming() {
 
@@ -59,6 +60,10 @@ function Programming() {
         }
     }
 
+    const resetCode = () => {
+        handleChange(defaults.cppCode);
+    }
+
     const handleChange = (newCode, e) => {
         localStorage.setItem("cpp", JSON.stringify({ ...cppLocalStorage, code: newCode }));
         setCode(newCode);
@@ -74,12 +79,12 @@ function Programming() {
     return <Fragment>
 
         <Navbar color={"rgb(52, 58, 64)"} />
+
         <div
             style={{
                 background: isDarkMode ? "rgb(21 55 106 / 90%)" : "rgb(88 125 137)",
                 paddingTop: "40px"
             }}>
-
 
             <div
                 style={{
@@ -87,24 +92,23 @@ function Programming() {
                     maxWidth: "70rem",
                 }}>
 
-
-                <div>
-
-                    <div className="left">
-
+                <div className="editor-navbar">
+                    <div className="left-editor-navbar">
+                        main.cpp
                     </div>
-
-                    <div className="right">
-                        {/* <div className="dropdown">
-                        <button className="dropbtn">Dropdown</button>
-                        <div className="dropdown-content">
-                            <a href="#">Link 1</a>
-                            <a href="#">Link 2</a>
-                            <a href="#">Link 3</a>
+                    <div className="right-editor-navbar">
+                        <div className="languages">
+                            <div className="dropdown">
+                                Choose Language
+                                <div className="dropdown-content">
+                                    <p>C</p>
+                                    <p>C++</p>
+                                    <p>Python</p>
+                                    <p>Java</p>
+                                </div>
+                            </div>
                         </div>
-                    </div> */}
                     </div>
-
                 </div>
 
 
@@ -119,13 +123,15 @@ function Programming() {
 
                 <div className="programming-footer">
                     <div className="left-footer">
-                        <p onClick={runProgram}>
-                            <FontAwesomeIcon icon={faRunning} size='lg' style={{ marginRight: "7px" }} />
-                            Run
-                        </p>
-                        {/* <p onClick={formatCode} >
-                        {"{} Beautify"}
-                    </p> */}
+                        <a href="#output-window" style={{ textDecoration: "none", color: 'white' }} >
+                            <p onClick={runProgram}>
+                                <FontAwesomeIcon icon={faRunning} size='lg' style={{ marginRight: "7px" }} />
+                                Run
+                            </p>
+                        </a>
+                        {/* <p onClick={setFormatCode(!formatCode)} >
+                            {"{} Beautify"}
+                        </p> */}
                         <DownloadLink
                             style={{ textDecoration: "none", color: "white" }}
                             label={
@@ -138,6 +144,11 @@ function Programming() {
                             filename="main.cpp"
                             exportFile={() => Promise.resolve(code)}
                         />
+
+                        <p onClick={resetCode}>
+                            <FontAwesomeIcon icon={faSyncAlt} size='lg' style={{ marginRight: "7px" }} />
+                            Reset
+                        </p>
 
                     </div>
                     <div className="right-footer">
@@ -178,7 +189,7 @@ function Programming() {
                             onChange={e => setInputValue(e.target.value)}
                         />
                     </div>
-                    <div className="output">
+                    <div className="output" id="output-window">
                         Output
                         <textarea
                             name="Output"
@@ -193,8 +204,8 @@ function Programming() {
                     </div>
                 </div>
             </div>
-        </div >
-    </Fragment>
+        </div>
+    </Fragment >
 }
 
 export default Programming;

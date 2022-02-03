@@ -98,7 +98,7 @@ function Development() {
 
     return <div style={{
         backgroundColor: 'hsl(225, 6%, 25%)',
-        height: '100vh'
+        height: '108vh'
     }}>
         <Navbar color={"#343a40"} />
         <Row>

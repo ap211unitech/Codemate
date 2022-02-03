@@ -5,16 +5,15 @@ import "codemirror/theme/material.css";
 import "codemirror/mode/xml/xml";
 import 'codemirror/addon/edit/closebrackets';
 import 'codemirror/addon/edit/closetag';
-import 'codemirror/addon/edit/matchbrackets'
-import 'codemirror/addon/edit/matchtags'
-import 'codemirror/src/input/indent'
-import 'codemirror/addon/hint/show-hint'
-import 'codemirror/addon/hint/html-hint'
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/addon/edit/matchtags';
+import 'codemirror/src/input/indent';
+import 'codemirror/addon/hint/show-hint';
+import 'codemirror/addon/hint/html-hint';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHtml5 } from '@fortawesome/free-brands-svg-icons';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
-
 import axios from 'axios';
 
 function Editor({ value, handleChange, refresh, handleRefresh, setHTMLCode }) {
