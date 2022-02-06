@@ -7,7 +7,72 @@ import { faRunning, faFileDownload, faSyncAlt } from '@fortawesome/free-solid-sv
 import { defaults } from "../utils/default";
 import errorHandling from "../utils/errorHandling";
 import axios from "axios";
-import Navbar from "../components/Navbar"
+import Select from "react-select";
+import Navbar from "../components/Navbar";
+
+
+// React Select Options
+
+const options = [
+    { value: 'c', label: 'C' },
+    { value: 'cpp', label: 'C++14' },
+    { value: 'python', label: 'Python3' },
+    { value: 'java', label: 'Java' },
+]
+
+const styles = {
+
+    container: (provided, state) => ({
+        ...provided,
+        color: 'white',
+        width: '10rem'
+    }),
+    valueContainer: (provided, state) => ({
+        ...provided,
+        minHeight: '30px',
+        color: 'white',
+        padding: "0px",
+        margin: "-8px 0px -8px 10px",
+        textAlign: 'left',
+        border: 'none',
+        cursor: "pointer"
+    }),
+    option: (provided, state) => ({
+        ...provided,
+        minHeight: "20px",
+        color: "white",
+        backgroundColor: '#414141',
+        borderRadius: 0,
+        fontSize: "1.1rem",
+        borderTop: '1px solid white',
+        borderBottom: '2px solid white',
+        borderRadius: '0px',
+        outline: 'none',
+        marginTop: "-5px",
+        marginBottom: '-5px',
+        padding: "6px 0px 6px 10px",
+        cursor: "pointer",
+    }),
+    singleValue: (provided, state) => ({
+        ...provided,
+        cursor: "pointer",
+        color: "white",
+        fontSize: "1.1rem",
+        border: 'none',
+        borderRadius: '0px',
+        outline: 'none',
+        margin: "0px",
+        padding: "0px",
+    }),
+    control: (provided, state) => ({
+        ...provided,
+        border: 0,
+        boxShadow: 'none',
+        minHeight: '30px',
+        borderRadius: "10px 10px 0px 0px",
+        backgroundColor: "#212121",
+    })
+};
 
 
 function Programming() {
@@ -21,8 +86,13 @@ function Programming() {
     const [code, setCode] = useState();
     const [inputValue, setInputValue] = useState('');
     const [outputValue, setOutputValue] = useState('');
+    const [selectedLanguage, setSelectedLanguage] = useState('');
     const [errMessage, setErrMessage] = useState('');
     const [isDarkMode, setIsDarkMode] = useState(true);
+
+    useEffect(() => {
+        
+    }, [])
 
     useEffect(() => {
         if (localStorage.getItem('cpp')) {
@@ -76,6 +146,7 @@ function Programming() {
         setIsDarkMode(!isDarkMode);
     }
 
+
     return <Fragment>
 
         <Navbar color={"rgb(52, 58, 64)"} />
@@ -92,22 +163,24 @@ function Programming() {
                     maxWidth: "70rem",
                 }}>
 
+
                 <div className="editor-navbar">
                     <div className="left-editor-navbar">
                         main.cpp
                     </div>
-                    <div className="right-editor-navbar">
-                        <div className="languages">
-                            <div className="dropdown">
-                                Choose Language
-                                <div className="dropdown-content">
-                                    <p>C</p>
-                                    <p>C++</p>
-                                    <p>Python</p>
-                                    <p>Java</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="right-editor-navbar" style={{
+
+
+                    }} >
+                        <Select
+                            options={options}
+                            styles={styles}
+                            defaultValue={options[0]}
+                            isSearchable={false}
+                            onChange={(selectedOption) => setSelectedLanguage(selectedOption)}
+                            value={selectedLanguage}
+                        // className={"left-editor-navbar"}
+                        />
                     </div>
                 </div>
 
