@@ -14,10 +14,9 @@ import Navbar from "../components/Navbar";
 // React Select Options
 
 const options = [
-    { value: 'c', label: 'C' },
-    { value: 'cpp', label: 'C++14' },
-    { value: 'python', label: 'Python3' },
-    { value: 'java', label: 'Java' },
+    { value: 'c', label: 'C', extension: '.c' },
+    { value: 'cpp', label: 'C++14', extension: '.cpp' },
+    { value: 'python3', label: 'Python3', extension: '.py' },
 ]
 
 const styles = {
@@ -80,44 +79,80 @@ function Programming() {
     const [cppLocalStorage, setCppLocalStorage] = useState({
         code: defaults.cppCode,
         lang: "cpp",
-        isDarkMode: true
+    })
+    const [cLocalStorage, setCLocalStorage] = useState({
+        code: defaults.cCode,
+        lang: "c",
+    })
+    const [pythonLocalStorage, setPythonLocalStorage] = useState({
+        code: defaults.pythonCode,
+        lang: "python3",
     })
 
     const [code, setCode] = useState();
     const [inputValue, setInputValue] = useState('');
     const [outputValue, setOutputValue] = useState('');
-    const [selectedLanguage, setSelectedLanguage] = useState('');
+    const [selectedLanguage, setSelectedLanguage] = useState(options[0]);
     const [errMessage, setErrMessage] = useState('');
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [isDarkMode, setIsDarkMode] = useState(JSON.parse(localStorage.getItem('isDarkMode')));
 
     useEffect(() => {
-        
-    }, [])
+        const { value, label } = selectedLanguage;
 
-    useEffect(() => {
-        if (localStorage.getItem('cpp')) {
-            setCppLocalStorage(JSON.parse(localStorage.getItem('cpp')));
-            setCode(JSON.parse(localStorage.getItem('cpp')).code)
-            setIsDarkMode(JSON.parse(localStorage.getItem('cpp')).isDarkMode)
+        if (value == 'c') {
+            if (localStorage.getItem('c')) {
+                setCLocalStorage(JSON.parse(localStorage.getItem('c')));
+                setCode(JSON.parse(localStorage.getItem('c')).code)
+            }
+            else {
+                setCLocalStorage({
+                    code: defaults.cCode,
+                    lang: "c",
+                });
+                setCode(cLocalStorage.code)
+            }
         }
-        else {
-            setCppLocalStorage({
-                code: defaults.cppCode,
-                lang: "cpp",
-                isDarkMode: true
-            });
-            setCode(cppLocalStorage.code)
-            setIsDarkMode(cppLocalStorage.isDarkMode)
+        else if (value == 'cpp') {
+            if (localStorage.getItem('cpp')) {
+                setCppLocalStorage(JSON.parse(localStorage.getItem('cpp')));
+                setCode(JSON.parse(localStorage.getItem('cpp')).code)
+            }
+            else {
+                setCppLocalStorage({
+                    code: defaults.cppCode,
+                    lang: "cpp",
+                });
+                setCode(cppLocalStorage.code)
+            }
         }
-    }, [])
+        else if (value == 'python3') {
+            if (localStorage.getItem('python')) {
+                setPythonLocalStorage(JSON.parse(localStorage.getItem('python')));
+                setCode(JSON.parse(localStorage.getItem('python')).code)
+            }
+            else {
+                setPythonLocalStorage({
+                    code: defaults.pythonCode,
+                    lang: "python3",
+                });
+                setCode(pythonLocalStorage.code)
+            }
+        }
+    }, [selectedLanguage])
 
     const runProgram = async () => {
         try {
             setErrMessage('');
             setOutputValue('Compiling...');
-            const res = await axios.post('/compile', { code, lang: 'cpp', input: inputValue });
+            const res = await axios.post('/compile', { code, lang: selectedLanguage.value, input: inputValue });
             const outputJson = res.data;
-            if (outputJson.memory == null && outputJson.cpuTime == null) {
+
+            if (outputJson.output.search('Error') != -1 ||
+                outputJson.output.search('error') != -1 ||
+                outputJson.output.search('Warning') != -1 ||
+                outputJson.output.search('warning') != -1 ||
+                outputJson.statusCode != 200
+            ) {
                 setErrMessage(errorHandling(outputJson));
                 setOutputValue('');
             }
@@ -131,18 +166,46 @@ function Programming() {
     }
 
     const resetCode = () => {
-        handleChange(defaults.cppCode);
+        const { value, label } = selectedLanguage;
+
+        if (value == 'c') {
+            handleChange(defaults.cCode);
+        }
+        else if (value == 'cpp') {
+            handleChange(defaults.cppCode);
+        }
+        else if (value == 'python3') {
+            handleChange(defaults.pythonCode);
+        }
+
+        setErrMessage('');
+        setOutputValue('');
+
     }
 
     const handleChange = (newCode, e) => {
-        localStorage.setItem("cpp", JSON.stringify({ ...cppLocalStorage, code: newCode }));
-        setCode(newCode);
-        setCppLocalStorage({ ...cppLocalStorage, code: newCode });
+
+        const { value, label } = selectedLanguage;
+
+        if (value == 'c') {
+            localStorage.setItem("c", JSON.stringify({ ...cLocalStorage, code: newCode }));
+            setCode(newCode);
+            setCppLocalStorage({ ...cLocalStorage, code: newCode });
+        }
+        else if (value == 'cpp') {
+            localStorage.setItem("cpp", JSON.stringify({ ...cppLocalStorage, code: newCode }));
+            setCode(newCode);
+            setCppLocalStorage({ ...cppLocalStorage, code: newCode });
+        }
+        else if (value == 'python3') {
+            localStorage.setItem("python", JSON.stringify({ ...pythonLocalStorage, code: newCode }));
+            setCode(newCode);
+            setCppLocalStorage({ ...pythonLocalStorage, code: newCode });
+        }
     }
 
     const toggleMode = () => {
-        localStorage.setItem("cpp", JSON.stringify({ ...cppLocalStorage, isDarkMode: isDarkMode ? false : true }));
-        setCppLocalStorage({ ...cppLocalStorage, isDarkMode: !isDarkMode });
+        localStorage.setItem("isDarkMode", !JSON.parse(localStorage.getItem('isDarkMode')));
         setIsDarkMode(!isDarkMode);
     }
 
@@ -166,7 +229,7 @@ function Programming() {
 
                 <div className="editor-navbar">
                     <div className="left-editor-navbar">
-                        main.cpp
+                        main{selectedLanguage.extension}
                     </div>
                     <div className="right-editor-navbar" style={{
 
@@ -188,10 +251,17 @@ function Programming() {
                 <div className="editor">
                     <CPPEditor
                         code={code}
-                        lang={"cpp"}
+                        lang={selectedLanguage.value == "python3" ? "python" : selectedLanguage.value}
                         handleChange={handleChange}
                         theme={isDarkMode ? "vs-dark" : "light"}
                     />
+                </div>
+
+                <div style={{
+                    color: 'white',
+                    marginTop: '12px'
+                }}>
+                    * Your Code will be saved automatically
                 </div>
 
                 <div className="programming-footer">
@@ -214,7 +284,7 @@ function Programming() {
                                 </Fragment>
                             }
                             tagName="p"
-                            filename="main.cpp"
+                            filename={`main${selectedLanguage.extension}`}
                             exportFile={() => Promise.resolve(code)}
                         />
 
@@ -272,7 +342,7 @@ function Programming() {
                             // placeholder="Output will show up here"
                             value={outputValue}
                             onChange={e => setOutputValue(e.target.value)}
-                            readOnly={true}
+                        // readOnly={true}
                         />
                     </div>
                 </div>

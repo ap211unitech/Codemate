@@ -40,7 +40,7 @@ function Editor({ value, handleChange, refresh, handleRefresh, setHTMLCode }) {
             </div>
         </div>
         <CodeMirror
-            value={value}
+            value={value == '' ? '<!-- * Your all Code will be saved automatically -->' : value}
             onBeforeChange={handleChange}
             options={{
                 lineWrapping: true,
