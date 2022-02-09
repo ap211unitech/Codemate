@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import "../programming.css";
 import DownloadLink from "react-download-link";
-import CPPEditor from '../components/CPPEditor';
+import ProgrammingEditor from '../components/ProgrammingEditor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRunning, faFileDownload, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { defaults } from "../utils/default";
@@ -212,12 +212,12 @@ function Programming() {
 
     return <Fragment>
 
-        <Navbar color={"rgb(52, 58, 64)"} />
+        <Navbar color={"rgb(52 58 64)"} />
 
         <div
             style={{
                 background: isDarkMode ? "rgb(21 55 106 / 90%)" : "rgb(88 125 137)",
-                paddingTop: "40px"
+                paddingTop: "40px",
             }}>
 
             <div
@@ -249,7 +249,7 @@ function Programming() {
 
 
                 <div className="editor">
-                    <CPPEditor
+                    <ProgrammingEditor
                         code={code}
                         lang={selectedLanguage.value == "python3" ? "python" : selectedLanguage.value}
                         handleChange={handleChange}
@@ -342,7 +342,7 @@ function Programming() {
                             // placeholder="Output will show up here"
                             value={outputValue}
                             onChange={e => setOutputValue(e.target.value)}
-                        // readOnly={true}
+                            readOnly={true}
                         />
                     </div>
                 </div>

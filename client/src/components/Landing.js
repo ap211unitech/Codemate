@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function Landing() {
     return <div>
-        <Navbar color={"#343a40"} />
+        <Navbar color={"rgb(30 33 37)"} />
         <div className='landing' >
             <div className="dark-overlay">
                 <div id="landing-heading">
@@ -16,7 +16,6 @@ function Landing() {
                 </div>
 
                 <div className="landing-btns">
-
                     <Link to="/programming_mode">Programming Mode</Link>
                     <Link to="/development_mode">Development Mode</Link>
 

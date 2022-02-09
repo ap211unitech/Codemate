@@ -102,8 +102,6 @@ function Development() {
     }}>
         <Navbar color={"#343a40"} />
 
-
-
         <Row>
             <Col
                 s={4}
