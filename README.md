@@ -1,6 +1,6 @@
 # Codemate 
 
-This is an Online Code Editor Made for Programming and Development Purposes. This is a MERN stack application.
+This is an Online Code Editor Made for Programming and Development Purposes. This is a React application with little bit of envolvement of NodeJS and Express.
 
 ## Quick Start 🚀
 
