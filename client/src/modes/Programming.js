@@ -151,6 +151,7 @@ function Programming() {
                 outputJson.output.search('error') != -1 ||
                 outputJson.output.search('Warning') != -1 ||
                 outputJson.output.search('warning') != -1 ||
+                outputJson.output.search('output Limit reached') != -1 ||
                 outputJson.statusCode != 200
             ) {
                 setErrMessage(errorHandling(outputJson));
@@ -312,6 +313,9 @@ function Programming() {
                         backgroundColor: "#e74c3c",
                         borderRadius: "5px",
                         padding: "8px",
+                        maxHeight: 300,
+                        overflowY: 'scroll',
+                        wordWrap: 'break-word'
                     } :
                         null
                     }
