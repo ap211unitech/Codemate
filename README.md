@@ -25,7 +25,7 @@ npm run dev
 ```
 
 ### See Live
-[https://codemate-ide.herokuapp.com/](https://codemate-ide.herokuapp.com/)
+[https://codemate-7li6.onrender.com/](https://codemate-7li6.onrender.com/)
 
 ### Author
 Arjun Porwal
